@@ -11,8 +11,8 @@ def bruteFib(n):
 class FibonacciTest(unittest.TestCase):
     def testFib1(self):
         self.assertEqual(1, fib(1))
-    # def testFib2(self):
-    #     self.assertEqual(1, fib(2))
+    def testFib2(self):
+        self.assertEqual(1, fib(2))
     # def testFib3(self):
     #     self.assertEqual(2, fib(3))
     # def testWithBrute(self):
