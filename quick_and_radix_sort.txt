@@ -1,0 +1,15 @@
+measured both sorting algorithms several times for 1 million random numbers in range of (0, 1000000)
+here's the result:
+
+
+radix LSD sort: 3.6017353534698486
+quicksort: 4.799418210983276
+
+radix LSD sort: 3.6017353534698486
+quicksort: 4.799418210983276
+
+radix LSD sort: 3.5245909690856934
+quicksort: 4.356465816497803
+
+radix LSD sort: 3.4135453701019287
+quicksort: 4.530847787857056

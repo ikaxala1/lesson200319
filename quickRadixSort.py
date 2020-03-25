@@ -1,60 +1,46 @@
 import time
 import random
 
-def countingSort(arr, exp1): 
-  
-    n = len(arr) 
-  
-    # The output array elements that will have sorted arr 
-    output = [0] * (n) 
-  
-    # initialize count array as 0 
-    count = [0] * (10) 
-  
-    # Store count of occurrences in count[] 
-    for i in range(0, n): 
-        index = (arr[i]//exp1) 
-        count[(index)%10] += 1
-  
-    # Change count[i] so that count[i] now contains actual 
-    #  position of this digit in output array 
-    for i in range(1,10): 
-        count[i] += count[i-1] 
-  
-    # Build the output array 
-    i = n-1
-    while i>=0: 
-        index = (arr[i]//exp1) 
-        output[ count[ (index)%10 ] - 1] = arr[i] 
-        count[ (index)%10 ] -= 1
-        i -= 1
-  
-    # Copying the output array to arr[], 
-    # so that arr now contains sorted numbers 
-    i = 0
-    for i in range(0,len(arr)): 
-        arr[i] = output[i]
+def radixSort(a):
+    BITS_PER_BYTE = 8
+    BITS = 32
+    R = 1 << BITS_PER_BYTE
+    MASK = R - 1
+    w = BITS // BITS_PER_BYTE
+    n = len(a)
+    aux = n * [0]
+    
+    for d in range(w):
+        count = (R + 1) * [0]
+        for i in range(n):
+            c = (a[i] >> BITS_PER_BYTE*d) & MASK
+            count[c + 1] += 1
+
+        for r in range(R):
+            count[r + 1] += count[r]
+
+        if (d == w - 1):
+            shift1 = count[R] - count[R//2]
+            shift2 = count[R//2]
+            for r in range(R//2):
+                count[r] += shift1
+            for r in range(R//2, R):
+                count[r] -= shift2
+
+        for i in range(n):
+            c = (a[i] >> BITS_PER_BYTE*d) & MASK
+            aux[count[c]] = a[i]
+            count[c] += 1
+
+        for i in range(n):
+            a[i] = aux[i]
 
 
-
-# Method to do Radix Sort 
-def radixSort(arr): 
-  
-    # Find the maximum number to know number of digits 
-    max1 = max(arr) 
-  
-    # Do counting sort for every digit. Note that instead 
-    # of passing digit number, exp is passed. exp is 10^i 
-    # where i is current digit number 
-    exp = 1
-    while max1//exp > 0: 
-        countingSort(arr,exp) 
-        exp *= 10
-
-
+                
 
 #Methods for quicksort
 def quickSort(arr):
+    random.shuffle(arr)
     quickSortHelper(arr, 0, len(arr) - 1)
 
 def quickSortHelper(arr, lo, hi):
@@ -85,21 +71,7 @@ def partition(arr, lo, hi):
     arr[lo], arr[j] = arr[j], arr[lo]
     return j
 
-# def partition(arr,low,high): 
-#     i = ( low-1 )         # index of smaller element 
-#     pivot = arr[high]     # pivot 
-  
-#     for j in range(low , high): 
-  
-#         # If current element is smaller than the pivot 
-#         if   arr[j] < pivot: 
-          
-#             # increment index of smaller element 
-#             i = i+1 
-#             arr[i],arr[j] = arr[j],arr[i] 
-  
-#     arr[i+1],arr[high] = arr[high],arr[i+1] 
-#     return ( i+1 )
+
 
 
 # Driver code to test above 
@@ -119,6 +91,7 @@ start = time.time()
 quickSort(arr) 
 end = time.time()
 print(end - start)
+# print(arr)
 
 # print(arr)
 
